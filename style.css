@@ -21,6 +21,7 @@ body {
   flex-direction: column;
 }
 .weather-icon {
+  z-index: 999;
   cursor: pointer;
   height: 100px;
   width: 100px;
@@ -30,7 +31,7 @@ body {
 
 .search-container {
   opacity: 0;
-  transform: translateY(-600px);
+  transform: translateY(300px);
   transition: all 2s ease;
 }
 .container.active .search-container {
@@ -75,14 +76,17 @@ body {
   font-size: 16px;
 }
 .location-data {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
   gap: 120px;
   align-items: center;
   justify-content: space-around;
   margin-top: 40px;
 }
 .temperature,
-.humidity {
+.humidity,
+.pressure,
+.wind {
   display: flex;
   flex-direction: column;
   margin: 0 20px;
