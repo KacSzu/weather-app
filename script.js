@@ -1,6 +1,6 @@
 "use strict";
 /// API FROM https://www.visualcrossing.com/
-const API_KEY = "";
+const API_KEY = "YLE8ZUKY3PMKBS3EUF6CXFWPX";
 const weatherIcon = document.querySelector(".weather-icon");
 const mainContainer = document.querySelector(".container");
 const searchContainer = document.querySelector(".search-container");
@@ -12,14 +12,18 @@ const showSearchBar = function () {
   searchInput.focus();
 };
 const getWeatherData = async function (location) {
-  await fetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}%2CUK?unitGroup=us&key=${API_KEY} `
-  )
-    .then((res) => res.json())
-    .then((data) => showWeatherModal(data))
-    .catch((error) => {
-      alert("Wrong location :/");
-    });
+  try {
+    const response = await fetch(
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}%2CUK?unitGroup=us&key=${API_KEY} `
+    );
+    if (!response.ok) {
+      throw new Error("Failed to find your location. Please try again.");
+    }
+    const data = await response.json();
+    showWeatherModal(data);
+  } catch (error) {
+    alert(error.message);
+  }
 };
 const showWeatherModal = function (data) {
   const address = data.address;
@@ -29,7 +33,6 @@ const showWeatherModal = function (data) {
   const pressure = data.currentConditions.pressure;
   const wind = data.currentConditions.windgust;
   const description = data.description;
-  console.log(data);
   mainContainer.innerHTML = `<div class="weather-container">
   <span class="location"> ${address[0].toUpperCase() + address.slice(1)}</span>
   <span class="location-description"
